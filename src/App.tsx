@@ -1,17 +1,18 @@
-import React from 'react'
-import styled from 'styled-components'
+import {tileLayer, map} from 'leaflet'
+import React, {useEffect} from 'react'
 
 export default function App() {
-  return <Main>a nice new project</Main>
+  useLeaflet()
+  return <div id="mapid"></div>
 }
 
-const Main = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
+function useLeaflet() {
+  useEffect(() => {
+    const mymap = map('mapid').setView([51.505, -0.09], 13)
 
-  background-color: #eeeee4;
-  color: #242422;
-  font-size: 75px;
-`
+    tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+      attribution:
+        'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(mymap)
+  }, [])
+}

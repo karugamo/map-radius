@@ -30,6 +30,7 @@ export default function App() {
     useEffect(() => {
       navigator.geolocation.getCurrentPosition((position) => {
         setZoom(11)
+        circle.addTo(map)
         setPosition([position.coords.latitude, position.coords.longitude])
       })
     }, [])
@@ -38,7 +39,7 @@ export default function App() {
   function useUpdatePosition() {
     useEffect(() => {
       map.setView(position, zoom)
-      circle?.setLatLng(position)
+      circle.setLatLng(position)
     }, [position])
   }
 }
@@ -50,5 +51,5 @@ function createCircle(): L.Circle {
     fillColor: color,
     fillOpacity: 0.2,
     radius: 15000
-  }).addTo(map)
+  })
 }

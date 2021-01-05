@@ -1,4 +1,4 @@
-# react-template
+# map-radius
 
 Run development server with
 ```

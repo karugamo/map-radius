@@ -2,11 +2,15 @@ import L from 'leaflet'
 import {useEffect, useState} from 'react'
 
 const map = L.map('mapid')
-const initialZoom = 11
+const initialPosition: L.LatLngExpression = [
+  51.467696956223385,
+  10.364964184506334
+]
 const circle = createCircle()
 
 export default function App() {
-  const [position, setPosition] = useState<[number, number]>([51.505, -0.09])
+  const [position, setPosition] = useState<L.LatLngExpression>(initialPosition)
+  const [zoom, setZoom] = useState(7)
   useLeaflet()
   useBrowserLocation()
   useUpdatePosition()
@@ -25,6 +29,7 @@ export default function App() {
   function useBrowserLocation() {
     useEffect(() => {
       navigator.geolocation.getCurrentPosition((position) => {
+        setZoom(11)
         setPosition([position.coords.latitude, position.coords.longitude])
       })
     }, [])
@@ -32,7 +37,7 @@ export default function App() {
 
   function useUpdatePosition() {
     useEffect(() => {
-      map.setView(position, initialZoom)
+      map.setView(position, zoom)
       circle?.setLatLng(position)
     }, [position])
   }
@@ -40,7 +45,7 @@ export default function App() {
 
 function createCircle(): L.Circle {
   const color = '#d82a36'
-  return L.circle([51.508, -0.11], {
+  return L.circle(initialPosition, {
     color,
     fillColor: color,
     fillOpacity: 0.2,

@@ -28,11 +28,15 @@ export default function App() {
 
   function useBrowserLocation() {
     useEffect(() => {
-      navigator.geolocation.getCurrentPosition((position) => {
-        setZoom(11)
-        circle.addTo(map)
-        setPosition([position.coords.latitude, position.coords.longitude])
-      })
+      navigator.geolocation.getCurrentPosition(
+        ({coords: {latitude, longitude}}) => {
+          setZoom(11)
+          circle.addTo(map)
+          const position: L.LatLngExpression = [latitude, longitude]
+          L.marker(position).addTo(map)
+          setPosition(position)
+        }
+      )
     }, [])
   }
 
